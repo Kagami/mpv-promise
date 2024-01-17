@@ -1,0 +1,24 @@
+{
+  "name": "mpv-promise",
+  "version": "0.0.0",
+  "description": "Promise polyfill for mpv",
+  "main": "nopromise.js",
+  "type": "module",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kagami/mpv-promise.git"
+  },
+  "keywords": [
+    "mpv",
+    "mpv-script",
+    "promise",
+    "polyfill"
+  ],
+  "author": "Avi Halachmi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Kagami/mpv-promise/issues"
+  },
+  "homepage": "https://github.com/Kagami/mpv-promise#readme"
+}

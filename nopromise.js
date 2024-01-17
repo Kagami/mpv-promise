@@ -19,7 +19,7 @@
  *   Promise.prototype.reject(reason)
  */
 
-(function(G){
+var muPromise = (function(){
 
 // Promise terminology:
 // State: begins with pending, may move once to fulfilled+value/rejected+reason.
@@ -34,19 +34,11 @@
 
 var globalQ,
     async,
-    staticNativePromise,
     FULFILLED = 1,
     REJECTED  = 2,
     FUNCTION  = "function";
 
-// Try to find the fastest asynchronous scheduler for this environment:
-// setImmediate -> native Promise scheduler -> setTimeout
-async = this.setImmediate; // nodejs, IE 10+
-try {
-    staticNativePromise = Promise.resolve();
-    async = async || function(f) { staticNativePromise.then(f) }; // Firefox/Chrome
-} catch (e) {}
-async = async || setTimeout; // IE < 10, others
+async = setTimeout;
 
 
 // The invariant between internalAsync and dequeue is that if globalQ is thuthy,
@@ -303,12 +295,12 @@ NoPromise.rejected = NoPromise.reject;   // Static standard, optional but tested
 // The tests also use the legacy dynamic API: prototype.resolve(v)/.reject(r)
 
 
-try {
-    module.exports = NoPromise;
-} catch (e) {
-    G.NoPromise = NoPromise;
-}
+return NoPromise;
 
-})( // used to setup a global NoPromise - not when using require("nopromise")
-    typeof global != "undefined" ? global :
-    typeof window != "undefined" ? window : this)
+})();
+
+var muGlobal = (Function("return this"))();
+if (!muGlobal.Promise) {
+    muGlobal.Promise = muPromise;
+}
+export default muPromise;
